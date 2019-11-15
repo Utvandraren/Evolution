@@ -11,7 +11,8 @@ namespace Evolution
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
+        Bug bugtest;
+        Texture2D bugText;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -39,8 +40,12 @@ namespace Evolution
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            bugText = Content.Load<Texture2D>("bug");
+            bugtest = new Bug(new Rectangle(0, 0, 100, 100), new Rectangle(0, 0, 100, 100), bugText, new Vector2(50, 50));
 
-            // TODO: use this.Content to load your game content here
+            graphics.PreferredBackBufferHeight = 800;
+            graphics.PreferredBackBufferWidth = 1200;
+            graphics.ApplyChanges();
         }
 
         /// <summary>
@@ -62,8 +67,7 @@ namespace Evolution
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-
+            bugtest.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -73,10 +77,10 @@ namespace Evolution
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // TODO: Add your drawing code here
-
+            GraphicsDevice.Clear(Color.WhiteSmoke);
+            spriteBatch.Begin();
+            bugtest.Draw(spriteBatch);
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
