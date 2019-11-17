@@ -1,6 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 
 namespace Evolution
 {
@@ -11,8 +17,12 @@ namespace Evolution
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Bug bugtest;
+        Bug bug;
         Texture2D bugText;
+        List<GameObject> gameList;
+        int nmbrBugs,nmbrBadBugs;
+        Random rnd;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -38,10 +48,28 @@ namespace Evolution
         /// </summary>
         protected override void LoadContent()
         {
+            nmbrBugs = 30;
+
+
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             bugText = Content.Load<Texture2D>("bug");
-            bugtest = new Bug(new Rectangle(0, 0, 100, 100), new Rectangle(0, 0, 100, 100), bugText, new Vector2(50, 50));
+            rnd = new Random();
+            gameList = new List<GameObject>();
+            bug = new Bug(new Rectangle(0, 0, 100, 100), new Rectangle(0, 0, 100, 100), bugText, new Vector2(50, 50),rnd);
+            for (int i = 0; i < nmbrBugs; i++)
+            {
+                int X = rnd.Next(1100);
+                int Y = rnd.Next(700);
+                gameList.Add(new Bug(new Rectangle(0, 0, 100, 100), new Rectangle(0, 0, 100, 100), bugText, new Vector2(X, Y),rnd));
+
+            }
+
+            //for (int i = 0; i < nmbrBadBugs; i++)
+            //{
+            //    gameList.Add(new Bug(new Rectangle(0, 0, 100, 100), new Rectangle(0, 0, 100, 100), bugText, new Vector2(50, 50)));
+
+            //}
 
             graphics.PreferredBackBufferHeight = 800;
             graphics.PreferredBackBufferWidth = 1200;
@@ -67,7 +95,12 @@ namespace Evolution
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            bugtest.Update(gameTime);
+            foreach (GameObject obj in gameList) //all objects
+            {
+                obj.Update(gameTime);
+            }
+            bug.Update(gameTime);
+
             base.Update(gameTime);
         }
 
@@ -79,7 +112,12 @@ namespace Evolution
         {
             GraphicsDevice.Clear(Color.WhiteSmoke);
             spriteBatch.Begin();
-            bugtest.Draw(spriteBatch);
+
+            foreach (GameObject obj in gameList)  //all objects
+            {
+                obj.Draw(spriteBatch);
+            }
+            bug.Draw(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);
         }

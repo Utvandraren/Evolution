@@ -11,27 +11,42 @@ namespace Evolution
 {
     class GameObject
     {
-        protected Rectangle collRect;
         protected Rectangle drawRect;
         protected Texture2D texture;
         protected Vector2 pos;
+        protected Rectangle collRect;
 
 
-        public GameObject(Rectangle collRect, Rectangle drawRect,Texture2D texture,Vector2 pos)
+        public GameObject(Rectangle drawRect,Texture2D texture,Vector2 pos)
         {
-            this.collRect = collRect;
             this.drawRect = drawRect;
+            collRect = drawRect;
             this.texture = texture;
             this.pos = pos;
         }
 
         public virtual void Update(GameTime gameTime)
         {
+
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, pos, drawRect, Color.White);
+        }
+
+        public virtual bool IsColliding(Rectangle otherCollRect)
+        {
+            if (collRect.Intersects(otherCollRect))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public virtual void HandleCollision()
+        {
+
         }
     }
 }
