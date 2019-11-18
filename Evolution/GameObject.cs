@@ -27,6 +27,8 @@ namespace Evolution
 
         public virtual void Update(GameTime gameTime)
         {
+            collRect.X = (int)pos.X;
+            collRect.Y = (int)pos.Y;
 
         }
 

@@ -71,7 +71,7 @@ namespace Evolution
             {
                 int X = rnd.Next(1100);
                 int Y = rnd.Next(700);
-                bugList.Add(new Bug(new Rectangle(0, 0, 100, 100), new Rectangle(0, 0, 100, 100), bugText, new Vector2(X, Y),rnd));
+                bugList.Add(new Bug(new Rectangle(0, 0, 100, 100), new Rectangle(0, 0, 100, 100), bugText, new Vector2(X, Y), rnd));
             }
 
             //for (int i = 0; i < nmbrBadBugs; i++)
@@ -103,30 +103,31 @@ namespace Evolution
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            //foreach (GameObject obj in bugList) //all objects
-            //{
-            //    obj.Update(gameTime);
+            foreach (GameObject obj in bugList) //all objects
+            {
+                obj.Update(gameTime);
 
-            //    foreach (Food food in staticObjList)
-            //    {
-            //        if (food.IsColliding(obj))
-            //        {
-            //            staticObjList.Remove(food);
-            //            break;
-            //        }
-            //    }
-            //}
+                foreach (Food food in staticObjList)
+                {
+                    if (food.IsColliding(obj))
+                    {
+                        staticObjList.Remove(food);
+                        break;
+                    }
+                }
+            }
 
             bug.Update(gameTime);
 
-            foreach (Food food in staticObjList)
-            {
-                if (food.IsColliding(bug))
-                {
-                    staticObjList.Remove(food);
-                    break;
-                }
-            }
+            //foreach (Food food in staticObjList)
+            //{
+            //    if (food.IsColliding(bug))
+            //    {
+            //        staticObjList.Remove(food);
+            //        break;
+            //    }
+
+            //}
 
             foreach (GameObject food in staticObjList) //all objects
             {
