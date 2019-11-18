@@ -13,7 +13,7 @@ namespace Evolution
     {
         protected Rectangle drawRect;
         protected Texture2D texture;
-        protected Vector2 pos;
+        public Vector2 pos;
         protected Rectangle collRect;
 
 
@@ -35,13 +35,9 @@ namespace Evolution
             spriteBatch.Draw(texture, pos, drawRect, Color.White);
         }
 
-        public virtual bool IsColliding(Rectangle otherCollRect)
-        {
-            if (collRect.Intersects(otherCollRect))
-            {
-                return true;
-            }
-            return false;
+        public virtual bool IsColliding(GameObject obj)
+        {           
+            return collRect.Intersects(obj.collRect);
         }
 
         public virtual void HandleCollision()

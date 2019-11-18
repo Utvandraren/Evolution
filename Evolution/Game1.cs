@@ -18,9 +18,9 @@ namespace Evolution
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Bug bug;
-        Texture2D bugText;
-        List<GameObject> gameList;
-        int nmbrBugs,nmbrBadBugs;
+        Texture2D bugText,foodText;
+        List<GameObject> bugList,staticObjList;
+        int nmbrBugs,nmbrBadBugs,nmbrFoods;
         Random rnd;
 
         public Game1()
@@ -48,27 +48,35 @@ namespace Evolution
         /// </summary>
         protected override void LoadContent()
         {
-            nmbrBugs = 30;
-
+            nmbrBugs = 1;
+            nmbrFoods = 100;
 
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             bugText = Content.Load<Texture2D>("bug");
+            foodText = Content.Load<Texture2D>("Food");
             rnd = new Random();
-            gameList = new List<GameObject>();
+            bugList = new List<GameObject>();
+            staticObjList = new List<GameObject>();
             bug = new Bug(new Rectangle(0, 0, 100, 100), new Rectangle(0, 0, 100, 100), bugText, new Vector2(50, 50),rnd);
+
+            for (int i = 0; i < nmbrFoods; i++)
+            {
+                int X = rnd.Next(1100);
+                int Y = rnd.Next(700);
+                staticObjList.Add(new Food(new Rectangle(0, 0, 20, 19), foodText, new Vector2(X, Y)));
+            }
+
             for (int i = 0; i < nmbrBugs; i++)
             {
                 int X = rnd.Next(1100);
                 int Y = rnd.Next(700);
-                gameList.Add(new Bug(new Rectangle(0, 0, 100, 100), new Rectangle(0, 0, 100, 100), bugText, new Vector2(X, Y),rnd));
-
+                bugList.Add(new Bug(new Rectangle(0, 0, 100, 100), new Rectangle(0, 0, 100, 100), bugText, new Vector2(X, Y),rnd));
             }
 
             //for (int i = 0; i < nmbrBadBugs; i++)
             //{
             //    gameList.Add(new Bug(new Rectangle(0, 0, 100, 100), new Rectangle(0, 0, 100, 100), bugText, new Vector2(50, 50)));
-
             //}
 
             graphics.PreferredBackBufferHeight = 800;
@@ -95,12 +103,36 @@ namespace Evolution
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            foreach (GameObject obj in gameList) //all objects
-            {
-                obj.Update(gameTime);
-            }
+            //foreach (GameObject obj in bugList) //all objects
+            //{
+            //    obj.Update(gameTime);
+
+            //    foreach (Food food in staticObjList)
+            //    {
+            //        if (food.IsColliding(obj))
+            //        {
+            //            staticObjList.Remove(food);
+            //            break;
+            //        }
+            //    }
+            //}
+
             bug.Update(gameTime);
 
+            foreach (Food food in staticObjList)
+            {
+                if (food.IsColliding(bug))
+                {
+                    staticObjList.Remove(food);
+                    break;
+                }
+            }
+
+            foreach (GameObject food in staticObjList) //all objects
+            {
+                food.Update(gameTime);
+            }
+            
             base.Update(gameTime);
         }
 
@@ -113,11 +145,14 @@ namespace Evolution
             GraphicsDevice.Clear(Color.WhiteSmoke);
             spriteBatch.Begin();
 
-            foreach (GameObject obj in gameList)  //all objects
+            foreach (GameObject obj in bugList)  //all objects
             {
                 obj.Draw(spriteBatch);
             }
-            bug.Draw(spriteBatch);
+            foreach (Food food in staticObjList)
+            {
+                food.Draw(spriteBatch);
+            }
             spriteBatch.End();
             base.Draw(gameTime);
         }
