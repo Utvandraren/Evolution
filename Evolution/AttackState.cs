@@ -12,7 +12,9 @@ namespace Evolution
 
         public AttackState(Bug bug)
         {
-
+            _bug = bug;
+            Init();
+            Enter();
         }
 
         public override void CheckTransitions(int i)

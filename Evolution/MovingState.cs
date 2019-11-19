@@ -11,11 +11,13 @@ namespace Evolution
 {
     class MovingState : State
     {
-        Bug _bug;
+        //Bug _bug;
         Random rnd;
+        Vector2 target;
 
-        public MovingState(Bug bug)
+        public MovingState(Bug bug,Vector2 target)
         {
+            this.target = target;
             _bug = bug;
             Init();
             Enter();
@@ -28,29 +30,37 @@ namespace Evolution
 
         public override void Enter()
         {
-            _bug.speed = rnd.Next(50, 100);
-            _bug.direction.X = rnd.Next(-1, 1);
-            _bug.direction.Y = rnd.Next(-1, 1);
+            if (context != null)
+            {
+                target = context.nearestObjPos;
+            }
+            _bug.speed = rnd.Next(80, 100);
+            _bug.direction = Vector2.Normalize(target - _bug.pos);
         }
 
         public override void Exit()
         {
-            this.context.TransitionTo(new IdleState(_bug));
+            context.TransitionTo(new IdleState(_bug));
         }
 
         public override void Init()
         {
             rnd = _bug.rnd;
-
+            
         }
 
         public override void Update()
         {
             _bug.speed -= 0.5f;
 
-            if (_bug.speed <= 20.0f)
+            if (_bug.speed <= 40.0f)
             {
                 Enter();
+            }
+
+            if (context.nearestObjPos.Length() > 300)
+            {
+                context.TransitionTo(new IdleState(_bug));
             }
         }
     }

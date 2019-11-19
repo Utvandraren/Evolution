@@ -18,10 +18,10 @@ namespace Evolution
 
         public Bug(Rectangle collRect,Rectangle drawRect,Texture2D texture, Vector2 pos,Random rnd) : base(drawRect, texture, pos)
         {
-            collRect = drawRect;
+            collRect = new Rectangle((int)pos.X / 3, (int)pos.Y / 3,(int)drawRect.Width/3, (int)drawRect.Height / 3);
             this.rnd = rnd;
             rotation = (float)(Math.Atan2(direction.Y, direction.X));
-            context = new Context(new MovingState(this),this);
+            context = new Context(new IdleState(this),this);
         }
 
         public override void Update(GameTime gameTime)
@@ -46,7 +46,7 @@ namespace Evolution
 
         public void NewRandomMovement()
         {
-            speed = rnd.Next(50, 100);
+            speed = rnd.Next(30, 60);
             direction.X = rnd.Next(-1, 1);
             direction.Y = rnd.Next(-1, 1);            
         }
@@ -54,6 +54,22 @@ namespace Evolution
         public override void HandleCollision()
         {            
             
+        }
+
+        public void UpdatePerceptionData(List<GameObject> objList)
+        {
+            foreach (GameObject obj in objList)
+            {
+                if (Vector2.Distance(obj.pos, pos) < Vector2.Distance(context.nearestObjPos, pos))
+                {
+                    context.nearestObjPos = obj.pos;
+                }
+            }
+        }
+
+        public void resetTarget()
+        {
+            context.nearestObjPos = new Vector2(2000, 1000);
         }
     }
 }

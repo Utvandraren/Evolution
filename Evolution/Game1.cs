@@ -17,7 +17,6 @@ namespace Evolution
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Bug bug;
         Texture2D bugText,foodText;
         List<GameObject> bugList,staticObjList;
         int nmbrBugs,nmbrBadBugs,nmbrFoods;
@@ -58,7 +57,7 @@ namespace Evolution
             rnd = new Random();
             bugList = new List<GameObject>();
             staticObjList = new List<GameObject>();
-            bug = new Bug(new Rectangle(0, 0, 100, 100), new Rectangle(0, 0, 100, 100), bugText, new Vector2(50, 50),rnd);
+            //bug = new Bug(new Rectangle(0, 0, 100, 100), new Rectangle(0, 0, 100, 100), bugText, new Vector2(50, 50),rnd);
 
             for (int i = 0; i < nmbrFoods; i++)
             {
@@ -103,9 +102,10 @@ namespace Evolution
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            foreach (GameObject obj in bugList) //all objects
+            foreach (Bug obj in bugList) //all objects
             {
                 obj.Update(gameTime);
+                obj.UpdatePerceptionData(staticObjList);
 
                 foreach (Food food in staticObjList)
                 {
@@ -116,18 +116,6 @@ namespace Evolution
                     }
                 }
             }
-
-            bug.Update(gameTime);
-
-            //foreach (Food food in staticObjList)
-            //{
-            //    if (food.IsColliding(bug))
-            //    {
-            //        staticObjList.Remove(food);
-            //        break;
-            //    }
-
-            //}
 
             foreach (GameObject food in staticObjList) //all objects
             {

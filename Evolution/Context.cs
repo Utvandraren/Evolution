@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
 
 namespace Evolution
 {
     class Context
-    {
+    {   
         private State _state = null;
-        Bug _bug;
+        public Bug _bug;
+        public Vector2 nearestObjPos = new Vector2(1000,1000);
 
         public Context(State state,Bug bug)
         {
@@ -25,12 +29,9 @@ namespace Evolution
 
         public void Update()
         {
-            _state.Update();
+            _state.Update();           
         }
 
-        public void Move()
-        {
-            TransitionTo(new MovingState(_bug));
-        }
+        
     }
 }

@@ -8,11 +8,15 @@ namespace Evolution
 {
     class IdleState : State
     {
-        Bug _bug;
+        //Bug _bug;
+        Random rnd;
+
 
         public IdleState(Bug bug)
         {
-
+            _bug = bug;
+            Init();
+            Enter();
         }
 
         public override void CheckTransitions(int i)
@@ -21,6 +25,8 @@ namespace Evolution
 
         public override void Enter()
         {
+            _bug.NewRandomMovement();
+
         }
 
         public override void Exit()
@@ -30,10 +36,22 @@ namespace Evolution
 
         public override void Init()
         {
+            rnd = _bug.rnd;
+
         }
 
         public override void Update()
         {
+            _bug.speed -= 0.8f;
+
+            if (_bug.speed < 10.0f)
+            {
+                Enter();
+            }
+            if (context.nearestObjPos.Length() < 200)
+            {
+                context.TransitionTo(new MovingState(_bug,context.nearestObjPos));
+            }
         }
     }
 }

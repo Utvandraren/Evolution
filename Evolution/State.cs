@@ -9,6 +9,7 @@ namespace Evolution
     abstract class State
     {
         protected Context context;
+        public Bug _bug;
 
         public abstract void Enter();
         public abstract void Exit();
