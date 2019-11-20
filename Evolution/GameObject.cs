@@ -20,15 +20,15 @@ namespace Evolution
         public GameObject(Rectangle drawRect,Texture2D texture,Vector2 pos)
         {
             this.drawRect = drawRect;
-            collRect = new Rectangle((int)drawRect.X + (int)drawRect.X / 2, (int)drawRect.Y + (int)drawRect.Y / 2, (int)drawRect.Width / 2, (int)drawRect.Height / 2);
+            collRect = new Rectangle((int)pos.X - drawRect.Width/4, (int)pos.Y - drawRect.Height / 5, drawRect.Width/4,drawRect.Height / 4);
             this.texture = texture;
             this.pos = pos;
         }
 
         public virtual void Update(GameTime gameTime)
         {
-            collRect.X = (int)pos.X;
-            collRect.Y = (int)pos.Y;
+            collRect.X = (int)pos.X - drawRect.Width / 8;
+            collRect.Y = (int)pos.Y - drawRect.Height / 5;
 
         }
 

@@ -47,7 +47,7 @@ namespace Evolution
         /// </summary>
         protected override void LoadContent()
         {
-            nmbrBugs = 1;
+            nmbrBugs = 10;
             nmbrFoods = 100;
 
             // Create a new SpriteBatch, which can be used to draw textures.
@@ -70,7 +70,7 @@ namespace Evolution
             {
                 int X = rnd.Next(1100);
                 int Y = rnd.Next(700);
-                bugList.Add(new Bug(new Rectangle(0, 0, 100, 100), new Rectangle(0, 0, 100, 100), bugText, new Vector2(X, Y), rnd));
+                bugList.Add(new Bug(new Rectangle(0, 0, bugText.Width, bugText.Height), bugText, new Vector2(X, Y), rnd));
             }
 
             //for (int i = 0; i < nmbrBadBugs; i++)

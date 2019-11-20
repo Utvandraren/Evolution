@@ -58,7 +58,7 @@ namespace Evolution
                 Enter();
             }
 
-            if (context.nearestObjPos.Length() > 300)
+            if ((context.nearestObjPos.Length() - _bug.pos.Length()) > 300)
             {
                 context.TransitionTo(new IdleState(_bug));
             }
