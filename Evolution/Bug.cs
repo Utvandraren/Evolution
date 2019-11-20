@@ -18,7 +18,8 @@ namespace Evolution
 
         public Bug(Rectangle collRect,Rectangle drawRect,Texture2D texture, Vector2 pos,Random rnd) : base(drawRect, texture, pos)
         {
-            collRect = new Rectangle((int)pos.X / 3, (int)pos.Y / 3,(int)drawRect.Width/3, (int)drawRect.Height / 3);
+            //collRect = new Rectangle((int)pos.X, (int)pos.Y, (int)drawRect.Width , (int)drawRect.Height );
+
             this.rnd = rnd;
             rotation = (float)(Math.Atan2(direction.Y, direction.X));
             context = new Context(new IdleState(this),this);
@@ -42,6 +43,9 @@ namespace Evolution
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, pos, drawRect, Color.White, rotation, new Vector2(75, 50), 1.0f, SpriteEffects.None, 1f);
+            spriteBatch.Draw(texture, pos, collRect, Color.Purple, rotation, new Vector2(75, 50), 1.0f, SpriteEffects.None, 1f);
+            //spriteBatch.Draw(texture, pos, collRect, Color.Purple);
+
         }
 
         public void NewRandomMovement()

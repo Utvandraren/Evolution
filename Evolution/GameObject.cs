@@ -20,7 +20,7 @@ namespace Evolution
         public GameObject(Rectangle drawRect,Texture2D texture,Vector2 pos)
         {
             this.drawRect = drawRect;
-            collRect = drawRect;
+            collRect = new Rectangle((int)drawRect.X + (int)drawRect.X / 2, (int)drawRect.Y + (int)drawRect.Y / 2, (int)drawRect.Width / 2, (int)drawRect.Height / 2);
             this.texture = texture;
             this.pos = pos;
         }

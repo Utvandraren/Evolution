@@ -14,6 +14,7 @@ namespace Evolution
 
         public Food( Rectangle drawRect, Texture2D texture, Vector2 pos) : base(drawRect, texture, pos)
         {
+            collRect = drawRect;
         }
 
         public override void Update(GameTime gameTime)
