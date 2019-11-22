@@ -11,7 +11,7 @@ namespace Evolution
 {
     class Bug : GameObject
     {
-        public Vector2 direction;
+        public Vector2 direction,frmMov;
         public float speed,rotation;
         public Random rnd;
         Context context;
@@ -27,14 +27,19 @@ namespace Evolution
         {
             pos += direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            context.Update();
-       
-           //rotation += (float)(Math.Atan2(direction.Y, direction.X) / (2 * Math.PI));  //Försök1
+            //Rotation          
+            frmMov = Vector2.Normalize(context.nearestObjPos - pos);
+            if (frmMov.Y > 0)
+            {
+                rotation = (float)(Math.Acos(frmMov.X) + Math.PI/2);
+            }
+            else
+            {
+                rotation = -(float)(Math.Acos(frmMov.X) - Math.PI/2);
 
-           //Vector2 oldDir = direction;
-           //float dot = Vector2.Dot(Vector2.Zero, direction);
-           //rotation += (float)Math.Acos(dot / (oldDir.Length() * direction.Length()));  //Försök 2
-            
+            }
+
+            context.Update();
             base.Update(gameTime);
         }
 
