@@ -17,8 +17,8 @@ namespace Evolution
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Texture2D bugText,foodText;
-        List<GameObject> bugList,staticObjList;
+        Texture2D bugText,foodText,badBugText;
+        List<GameObject> bugList,badBugList,staticObjList;
         int nmbrBugs,nmbrBadBugs,nmbrFoods;
         Random rnd;
 
@@ -48,16 +48,18 @@ namespace Evolution
         protected override void LoadContent()
         {
             nmbrBugs = 10;
+            nmbrBadBugs = 2;
             nmbrFoods = 100;
 
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             bugText = Content.Load<Texture2D>("bug");
+            badBugText = Content.Load<Texture2D>("badbug");
             foodText = Content.Load<Texture2D>("Food");
             rnd = new Random();
             bugList = new List<GameObject>();
+            badBugList = new List<GameObject>();
             staticObjList = new List<GameObject>();
-            //bug = new Bug(new Rectangle(0, 0, 100, 100), new Rectangle(0, 0, 100, 100), bugText, new Vector2(50, 50),rnd);
 
             for (int i = 0; i < nmbrFoods; i++)
             {
@@ -70,13 +72,15 @@ namespace Evolution
             {
                 int X = rnd.Next(1100);
                 int Y = rnd.Next(700);
-                bugList.Add(new Bug(new Rectangle(0, 0, bugText.Width, bugText.Height), bugText, new Vector2(X, Y), rnd));
+                bugList.Add(new GoodBug(new Rectangle(0, 0, bugText.Width, bugText.Height), bugText, new Vector2(X, Y), rnd));
             }
 
-            //for (int i = 0; i < nmbrBadBugs; i++)
-            //{
-            //    gameList.Add(new Bug(new Rectangle(0, 0, 100, 100), new Rectangle(0, 0, 100, 100), bugText, new Vector2(50, 50)));
-            //}
+            for (int i = 0; i < nmbrBadBugs; i++)
+            {
+                int X = rnd.Next(1100);
+                int Y = rnd.Next(700);
+                badBugList.Add(new BadBug(new Rectangle(0, 0, badBugText.Width, badBugText.Height), badBugText, new Vector2(X, Y), rnd));
+            }
 
             graphics.PreferredBackBufferHeight = 800;
             graphics.PreferredBackBufferWidth = 1200;
@@ -102,13 +106,18 @@ namespace Evolution
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            foreach (Bug obj in bugList) 
+            foreach (GoodBug obj in bugList) 
             {
                 obj.Update(gameTime);
                 obj.UpdatePerceptionData(staticObjList);    
             }
 
-            foreach (Bug obj in bugList) 
+            foreach (BadBug bug in badBugList)
+            {
+                bug.Update(gameTime);
+            }
+
+            foreach (GoodBug obj in bugList) 
             {
                 foreach (Food food in staticObjList)
                 {
@@ -145,6 +154,11 @@ namespace Evolution
             foreach (Food food in staticObjList)
             {
                 food.Draw(spriteBatch);
+            }
+
+            foreach (BadBug bug in badBugList)
+            {
+                bug.Draw(spriteBatch);
             }
             spriteBatch.End();
             base.Draw(gameTime);
