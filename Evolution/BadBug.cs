@@ -10,6 +10,8 @@ namespace Evolution
 {
     class BadBug : Bug
     {
+
+
         public BadBug(Rectangle drawRect, Texture2D texture, Vector2 pos, Random rnd) : base(drawRect, texture, pos, rnd)
         {
 

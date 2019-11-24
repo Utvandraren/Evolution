@@ -106,15 +106,24 @@ namespace Evolution
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            foreach (GoodBug obj in bugList) 
-            {
-                obj.Update(gameTime);
-                obj.UpdatePerceptionData(staticObjList);    
-            }
-
-            foreach (BadBug bug in badBugList)
+            foreach (GoodBug bug in bugList) 
             {
                 bug.Update(gameTime);
+                bug.UpdatePerceptionData(staticObjList);              
+            }
+
+            foreach (BadBug badBug in badBugList)
+            {
+                badBug.Update(gameTime);
+
+                foreach (GoodBug bug in bugList)
+                {
+                    if (badBug.IsColliding(bug))
+                    {
+                        bugList.Remove(bug);
+                        break;
+                    }
+                }
             }
 
             foreach (GoodBug obj in bugList) 
