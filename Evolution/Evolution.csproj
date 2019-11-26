@@ -42,6 +42,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BadBug.cs" />
+    <Compile Include="BadBugAI\AttackNode.cs" />
+    <Compile Include="BadBugAI\IdleNode.cs" />
     <Compile Include="BadBugAI\Node.cs" />
     <Compile Include="Bug.cs" />
     <Compile Include="GoodBugAI\Context.cs" />

@@ -5,21 +5,34 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Evolution.BadBugAI;
 
 namespace Evolution
 {
     class BadBug : Bug
     {
-
+        Node rootNode,idleNode,attackNode;
+        public Vector2 nearestGoodBug;
 
         public BadBug(Rectangle drawRect, Texture2D texture, Vector2 pos, Random rnd) : base(drawRect, texture, pos, rnd)
         {
+            rootNode = new Node(1, this);
+            idleNode = new IdleNode(2, this);
+            attackNode = new AttackNode(3, this);
+            rootNode.AddTrueNode(attackNode);
+            rootNode.AddFalseNode(idleNode);
+            idleNode.AddTrueNode(attackNode);
+            attackNode.AddTrueNode(idleNode);
 
+            nearestGoodBug = new Vector2(2000, 2000);
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+            rootNode.Eval();
+
+            speed -= 0.8f;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -29,18 +42,18 @@ namespace Evolution
 
         public void UpdatePerceptionData(List<GameObject> objList)
         {
-            foreach (GameObject obj in objList)
+            foreach (GameObject bug in objList)
             {
-                //if (Vector2.Distance(obj.pos, pos) < Vector2.Distance(context.nearestObjPos, pos))
-                //{
-                //    //context.nearestObjPos = obj.pos;
-                //}
+                if (Vector2.Distance(bug.pos, pos) < Vector2.Distance(nearestGoodBug, pos))
+                {
+                    nearestGoodBug = bug.pos;
+                }
             }
         }
 
         public void resetTarget()
         {
-            //context.nearestObjPos = new Vector2(2000, 1000);
+            nearestGoodBug = new Vector2(2000, 2000);
         }
 
     }

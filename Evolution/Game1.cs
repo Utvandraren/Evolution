@@ -115,12 +115,17 @@ namespace Evolution
             foreach (BadBug badBug in badBugList)
             {
                 badBug.Update(gameTime);
+                badBug.UpdatePerceptionData(bugList);
+            }
 
+            foreach (BadBug badBug in badBugList)
+            {
                 foreach (GoodBug bug in bugList)
                 {
                     if (badBug.IsColliding(bug))
                     {
                         bugList.Remove(bug);
+                        badBug.resetTarget();
                         break;
                     }
                 }

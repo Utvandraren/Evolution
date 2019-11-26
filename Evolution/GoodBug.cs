@@ -25,17 +25,7 @@ namespace Evolution
             base.Update(gameTime);
 
             //Rotation          
-            frmMov = Vector2.Normalize(context.nearestObjPos - pos);
-            if (frmMov.Y > 0)
-            {
-                rotation = (float)(Math.Acos(frmMov.X) + Math.PI / 2);
-            }
-            else
-            {
-                rotation = -(float)(Math.Acos(frmMov.X) - Math.PI / 2);
-
-            }
-
+            //frmMov = Vector2.Normalize(context.nearestObjPos - pos);
             context.Update();
         }
 

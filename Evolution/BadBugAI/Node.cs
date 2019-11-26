@@ -13,47 +13,62 @@ namespace Evolution.BadBugAI
     {
         public int ID;
         public Node trueBranch, falseBranch;
-        public Bug bug;
-        Vector2 nearestBugPos;
+        public BadBug bug;
         Node root;
 
-        public Node(int newId)
+        public Node(int newId, BadBug newBug)
         {
             this.ID = newId;
+            bug = newBug;
         }
 
-        public void SetRoot(int newID)
+        public virtual void SetRoot(int newID)
         {
-            root = new Node(newID);
+            root = new Node(newID,bug);
         }
 
-        public void AddTrueNode(int existingNodeID, int newNodeID)
+        public virtual void AddTrueNode(Node newNode)
         {
-            if (root == null)
+            trueBranch = newNode;
+        }
+       
+        public virtual void AddFalseNode(Node newNode)
+        {
+            falseBranch = newNode;
+        }
+
+        public virtual void Eval()
+        {
+            if (trueBranch != null)
             {
-                return;
+                if (trueBranch.Condition())
+                {
+                    trueBranch.Eval();
+                    return;
+                }
             }
 
-            trueBranch = new Node(newNodeID);
+            if (falseBranch != null)
+            {
+                if (falseBranch.Condition())
+                {
+                    falseBranch.Eval();
+                    return;
+
+                }
+            }
+
+            Action(); // Gör detta om ingen av brancherna är sanna
            
         }
-       
-        public void AddFalseNode(int existingNodeID, int newNodeID, String newQuestAns)
+
+        public virtual bool Condition()
         {
-            if (root == null)
-            {
-                return;
-            }
-
-            falseBranch = new Node(newNodeID);
-
+            return true;
         }
 
-        private void Eval(Node currentNode)
+        public virtual void Action()
         {
-
         }
-
-       
     }
 }
