@@ -17,9 +17,9 @@ namespace Evolution
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Texture2D bugText,foodText,badBugText;
-        List<GameObject> bugList,badBugList,staticObjList;
-        int nmbrBugs,nmbrBadBugs,nmbrFoods;
+        Texture2D bugText,foodText,badBugText,TinyBugText;
+        List<GameObject> bugList,badBugList,staticObjList,tinyBugList;
+        int nmbrBugs,nmbrBadBugs,nmbrFoods,nmbrTinyBugs;
         Random rnd;
 
         public Game1()
@@ -47,19 +47,22 @@ namespace Evolution
         /// </summary>
         protected override void LoadContent()
         {
-            nmbrBugs = 10;
+            nmbrBugs = 30;
             nmbrBadBugs = 2;
+            nmbrTinyBugs = 30;
             nmbrFoods = 100;
 
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             bugText = Content.Load<Texture2D>("bug");
             badBugText = Content.Load<Texture2D>("badbug");
+            TinyBugText = Content.Load<Texture2D>("bug");
             foodText = Content.Load<Texture2D>("Food");
             rnd = new Random();
             bugList = new List<GameObject>();
             badBugList = new List<GameObject>();
             staticObjList = new List<GameObject>();
+            tinyBugList = new List<GameObject>();
 
             for (int i = 0; i < nmbrFoods; i++)
             {
@@ -81,6 +84,14 @@ namespace Evolution
                 int Y = rnd.Next(700);
                 badBugList.Add(new BadBug(new Rectangle(0, 0, badBugText.Width, badBugText.Height), badBugText, new Vector2(X, Y), rnd));
             }
+
+            for (int i = 0; i < nmbrTinyBugs; i++)
+            {
+                int X = rnd.Next(1100);
+                int Y = rnd.Next(700);
+                bugList.Add(new GoodBug(new Rectangle(0, 0, TinyBugText.Width, TinyBugText.Height), TinyBugText, new Vector2(X, Y), rnd));
+            }
+
 
             graphics.PreferredBackBufferHeight = 800;
             graphics.PreferredBackBufferWidth = 1200;

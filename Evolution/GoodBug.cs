@@ -24,13 +24,13 @@ namespace Evolution
         {
             base.Update(gameTime);
 
-            //Rotation          
-            //frmMov = Vector2.Normalize(context.nearestObjPos - pos);
+
             context.Update();
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            //spriteBatch.Draw(texture, pos, drawRect, Color.White, rotation, new Vector2(75, 50), 1.0f, SpriteEffects.None, 1f);
             base.Draw(spriteBatch);
         }
 
