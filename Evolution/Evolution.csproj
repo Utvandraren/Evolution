@@ -51,6 +51,7 @@
     <Compile Include="Game1.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="GoodBug.cs" />
+    <Compile Include="GoodBugAI\EvadeState.cs" />
     <Compile Include="GoodBugAI\IdleState.cs" />
     <Compile Include="GoodBugAI\MovingState.cs" />
     <Compile Include="Program.cs" />

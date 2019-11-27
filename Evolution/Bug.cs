@@ -35,6 +35,24 @@ namespace Evolution
                 rotation = -(float)(Math.Acos(frmMov.X) - Math.PI / 2);
             }
 
+            //Flyttar in insekterna in i fönstret om de börjar röra sig utanför
+            if (pos.X > 1200)
+            {
+                pos.X -= 1200;
+            }
+            else if(pos.X < 0)
+            {
+                pos.X = 1200;
+            }
+            if (pos.Y > 800)
+            {
+                pos.Y -= 800;
+            }
+            else if (pos.Y < 0)
+            {
+                pos.Y = 800;
+            }
+
             base.Update(gameTime);
         }
 

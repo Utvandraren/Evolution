@@ -34,13 +34,21 @@ namespace Evolution
             base.Draw(spriteBatch);
         }
 
-        public void UpdatePerceptionData(List<GameObject> objList)
+        public void UpdatePerceptionData(List<GameObject> objList,List<GameObject> badBugList)
         {
             foreach (GameObject obj in objList)
             {
                 if (Vector2.Distance(obj.pos, pos) < Vector2.Distance(context.nearestObjPos, pos))
                 {
                     context.nearestObjPos = obj.pos;
+                }
+            }
+
+            foreach (GameObject badBug in badBugList)
+            {
+                if (Vector2.Distance(badBug.pos, pos) < Vector2.Distance(context.nearestEnemy, pos))
+                {
+                    context.nearestEnemy = badBug.pos;
                 }
             }
         }

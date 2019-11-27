@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Evolution.GoodBugAI;
+
 
 namespace Evolution
 {
@@ -49,9 +53,14 @@ namespace Evolution
             {
                 Enter();
             }
-            if ((context.nearestObjPos.Length() - _bug.pos.Length()) < 200)
+           
+            if (Vector2.Distance(context.nearestEnemy, _bug.pos) < 200)
             {
-                context.TransitionTo(new MovingState(_bug,context.nearestObjPos));
+                context.TransitionTo(new EvadeState(_bug, context.nearestEnemy));
+            }
+            else if ((context.nearestObjPos.Length() - _bug.pos.Length()) < 300)
+            {
+                context.TransitionTo(new MovingState(_bug, context.nearestObjPos));
             }
         }
     }

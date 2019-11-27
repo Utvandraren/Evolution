@@ -109,7 +109,7 @@ namespace Evolution
             foreach (GoodBug bug in bugList) 
             {
                 bug.Update(gameTime);
-                bug.UpdatePerceptionData(staticObjList);              
+                bug.UpdatePerceptionData(staticObjList,badBugList);              
             }
 
             foreach (BadBug badBug in badBugList)

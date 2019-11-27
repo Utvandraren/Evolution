@@ -22,7 +22,6 @@ namespace Evolution.BadBugAI
 
         public override void Action()
         {
-           
             bug.speed = rnd.Next(70, 90);
             bug.direction = Vector2.Normalize(bug.nearestGoodBug - bug.pos);
             bug.resetTarget();

@@ -14,6 +14,7 @@ namespace Evolution
         private State _state = null;
         public Bug _bug;
         public Vector2 nearestObjPos = new Vector2(2000,2000);
+        public Vector2 nearestEnemy = new Vector2(2000, 2000);
 
         public Context(State state,Bug bug)
         {
