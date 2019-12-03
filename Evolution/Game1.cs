@@ -47,9 +47,9 @@ namespace Evolution
         /// </summary>
         protected override void LoadContent()
         {
-            nmbrBugs = 30;
-            nmbrBadBugs = 2;
-            nmbrTinyBugs = 30;
+            nmbrBugs = 1;
+            nmbrBadBugs = 1;
+            nmbrTinyBugs = 1;
             nmbrFoods = 100;
 
             // Create a new SpriteBatch, which can be used to draw textures.

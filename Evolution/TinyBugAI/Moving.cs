@@ -14,13 +14,19 @@ namespace Evolution.TinyBugAI
         //Bug _bug;
         Random rnd;
         Vector2 target;
+        float approachDist;
 
-        public Moving(Bug bug, Vector2 target)
+        public Moving(Bug bug)
         {
-            this.target = target;
             _bug = bug;
             Init();
             Enter();
+        }
+
+        public override float CalculateActivation()
+        {
+            activationLevel = approachDist / Vector2.Distance(context.nearestObjPos, _bug.pos);
+            return activationLevel;
         }
 
         public override void CheckTransitions(int i)
@@ -40,7 +46,7 @@ namespace Evolution.TinyBugAI
 
         public override void Exit()
         {
-            context.TransitionTo(new IdleState(_bug));
+
         }
 
         public override void Init()
@@ -51,24 +57,13 @@ namespace Evolution.TinyBugAI
 
         public override void Update()
         {
-            _bug.speed -= 0.5f;
 
-            if (_bug.speed <= 40.0f)
+            if (_bug.speed <= 30.0f)
             {
                 Enter();
             }
 
-            if (Vector2.Distance(context.nearestEnemy, _bug.pos) < 200)
-            {
-                context.TransitionTo(new Evade(_bug, context.nearestEnemy));
-            }
-            else
-            {
-                if ((target.Length() - _bug.pos.Length()) > 300 && (Vector2.Distance(target, _bug.pos) > 250))
-                {
-                    context.TransitionTo(new IdleState(_bug));
-                }
-            }
+            
 
         }
     }

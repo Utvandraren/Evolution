@@ -9,16 +9,45 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Evolution.TinyBugAI
 {
-    abstract class FuzzyState
-    {
+     class FuzzyState
+     {
+        protected float activationLevel;
         protected FuzzyContext context;
         public Bug _bug;
 
-        public abstract void Enter();
-        public abstract void Exit();
-        public abstract void Update();
-        public abstract void Init();
-        public abstract void CheckTransitions(int i);
+
+        public virtual void Enter() { }
+        public virtual void Exit() { }
+        public virtual void Update() { }
+        public virtual void Init() { activationLevel = 0.0f; }
+        public virtual void CheckTransitions(int i) {  }
+        public virtual float CalculateActivation()
+        {
+            return activationLevel;
+        }
+
+        public virtual void CheckLowerBound(float lbound = 0.0f)
+        {
+            if (activationLevel < lbound)
+            {
+                activationLevel = lbound;
+            }
+        }
+
+        public virtual void CheckUpperBound(float uBound = 1.0f)
+        {
+            if (activationLevel > uBound)
+            {
+                activationLevel = uBound;
+            }
+        }
+
+        public virtual void CheckBounds(float lb = 0.0f, float ub = 1.0f)
+        {
+            CheckLowerBound(lb);
+            CheckUpperBound(ub);
+        }
+
 
         public void SetContext(FuzzyContext context)
         {
@@ -26,5 +55,6 @@ namespace Evolution.TinyBugAI
         }
 
 
-    }
+
+     }
 }

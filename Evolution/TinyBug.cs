@@ -16,12 +16,19 @@ namespace Evolution
 
         public TinyBug(Rectangle drawRect,Texture2D texture, Vector2 pos,Random rnd) : base(drawRect, texture, pos, rnd)
         {
-            context = new FuzzyContext(new TinyBugAI.IdleState(this), this);
+            context = new FuzzyContext(this);
+            context.AddState(new TinyBugAI.IdleState(this));
+            context.AddState(new Moving(this));
+            context.AddState(new Evade(this));
 
         }
 
         public override void Update(GameTime gameTime)
         {
+            if (speed > 0)
+            {
+                speed -= 0.8f;
+            }
             base.Update(gameTime);
             context.Update();
 
