@@ -56,7 +56,7 @@ namespace Evolution
             spriteBatch = new SpriteBatch(GraphicsDevice);
             bugText = Content.Load<Texture2D>("bug");
             badBugText = Content.Load<Texture2D>("badbug");
-            TinyBugText = Content.Load<Texture2D>("bug");
+            TinyBugText = Content.Load<Texture2D>("tinybug");
             foodText = Content.Load<Texture2D>("Food");
             rnd = new Random();
             bugList = new List<GameObject>();
@@ -89,7 +89,7 @@ namespace Evolution
             {
                 int X = rnd.Next(1100);
                 int Y = rnd.Next(700);
-                bugList.Add(new GoodBug(new Rectangle(0, 0, TinyBugText.Width, TinyBugText.Height), TinyBugText, new Vector2(X, Y), rnd));
+                tinyBugList.Add(new TinyBug(new Rectangle(0, 0, TinyBugText.Width, TinyBugText.Height), TinyBugText, new Vector2(X, Y), rnd));
             }
 
 
@@ -127,6 +127,12 @@ namespace Evolution
             {
                 badBug.Update(gameTime);
                 badBug.UpdatePerceptionData(bugList);
+            }
+
+            foreach (TinyBug tiny in tinyBugList)
+            {
+                tiny.Update(gameTime);
+                //updateperxxetion
             }
 
             foreach (BadBug badBug in badBugList)
@@ -172,7 +178,7 @@ namespace Evolution
             GraphicsDevice.Clear(Color.WhiteSmoke);
             spriteBatch.Begin();
 
-            foreach (GameObject obj in bugList)  //all objects
+            foreach (GameObject obj in bugList)  
             {
                 obj.Draw(spriteBatch);
             }
@@ -185,6 +191,12 @@ namespace Evolution
             {
                 bug.Draw(spriteBatch);
             }
+
+            foreach (TinyBug tiny in tinyBugList)
+            {
+                tiny.Draw(spriteBatch);
+            }
+
             spriteBatch.End();
             base.Draw(gameTime);
         }
