@@ -132,7 +132,7 @@ namespace Evolution
             foreach (TinyBug tiny in tinyBugList)
             {
                 tiny.Update(gameTime);
-                //updateperxxetion
+                tiny.UpdatePerceptionData(staticObjList, badBugList);
             }
 
             foreach (BadBug badBug in badBugList)
@@ -156,6 +156,19 @@ namespace Evolution
                     {
                         staticObjList.Remove(food);
                         obj.resetTarget();
+                        break;
+                    }
+                }
+            }
+
+            foreach (TinyBug tiny in tinyBugList)
+            {
+                foreach (Food food in staticObjList)
+                {
+                    if (food.IsColliding(tiny))
+                    {
+                        staticObjList.Remove(food);
+                        tiny.resetTarget();
                         break;
                     }
                 }

@@ -33,6 +33,7 @@ namespace Evolution.TinyBugAI
 
         public void Update()
         {
+
             active_state.Clear();
 
             foreach (FuzzyState state in _state)
@@ -65,39 +66,7 @@ namespace Evolution.TinyBugAI
             
         }
 
-        public bool NothingHere()
-        {
-            if (!isCloseToFood() && !InDanger())
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public bool IsSafeToEat()
-        {
-            if (isCloseToFood() && !InDanger())
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public bool isCloseToFood()
-        {
-            return (Vector2.Distance(nearestObjPos, _bug.pos) < 300);
-        }
-
-        public bool InDanger()
-        {
-            return (Vector2.Distance(nearestEnemy, _bug.pos) < 200);
-        }
+       
 
     }
 }

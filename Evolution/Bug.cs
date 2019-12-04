@@ -24,7 +24,7 @@ namespace Evolution
         public override void Update(GameTime gameTime)
         {
             pos += direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-
+        
             frmMov = direction;
             if (frmMov.Y > 0)
             {
@@ -58,16 +58,9 @@ namespace Evolution
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, pos, drawRect, Color.White, rotation, new Vector2(75, 50), 1.0f, SpriteEffects.None, 1f);
+            spriteBatch.Draw(texture, pos, drawRect, Color.White, rotation, new Vector2(drawRect.Width/2, drawRect.Height / 2), 1.0f, SpriteEffects.None, 1f);
             //spriteBatch.Draw(texture, collRect, Color.Purple); //DebugColl
 
-        }
-
-        public void NewRandomMovement()
-        {
-            speed = rnd.Next(30, 60);
-            direction.X = rnd.Next(-1, 1);
-            direction.Y = rnd.Next(-1, 1);            
         }
 
         public override void HandleCollision()
@@ -75,6 +68,31 @@ namespace Evolution
             
         }
 
-       
+        public Vector2 Direction
+        {
+            get { return direction; }
+
+            set
+            {
+                if (direction.X > 1)
+                {
+                    direction.X = 1;
+                }
+                if (direction.X < 0)
+                {
+                    direction.X = 0;
+                }
+                if (direction.Y > 1)
+                {
+                    direction.Y = 1;
+                }
+                if (direction.Y < 0)
+                {
+                    direction.Y = 0;
+                }
+
+                direction = value;
+            }
+        }
     }
 }

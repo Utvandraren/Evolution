@@ -16,6 +16,8 @@ namespace Evolution
 
         public GoodBug(Rectangle drawRect, Texture2D texture, Vector2 pos, Random rnd) : base(drawRect, texture, pos, rnd)
         {
+            collRect = new Rectangle((int)pos.X - drawRect.Width / 4, (int)pos.Y - drawRect.Height / 5, drawRect.Width / 4, drawRect.Height / 4);
+            
             context = new Context(new IdleState(this), this);
 
         }

@@ -26,6 +26,7 @@ namespace Evolution.TinyBugAI
         public override float CalculateActivation()
         {
             activationLevel = approachDist / Vector2.Distance(context.nearestObjPos, _bug.pos);
+            CheckBounds();
             return activationLevel;
         }
 
@@ -40,8 +41,15 @@ namespace Evolution.TinyBugAI
             {
                 target = context.nearestObjPos;
             }
-            _bug.speed = rnd.Next(80, 100);
-            _bug.direction = Vector2.Normalize(target - _bug.pos);
+            _bug.speed = rnd.Next(80, 100) * activationLevel;
+            _bug.Direction += Vector2.Normalize(target - _bug.pos) * activationLevel;
+
+            //if ((target-_bug.pos) == Vector2.Zero)
+            //{
+            //    System.Diagnostics.Debug.WriteLine(_bug.Direction);
+
+            //}
+
         }
 
         public override void Exit()
@@ -52,19 +60,16 @@ namespace Evolution.TinyBugAI
         public override void Init()
         {
             rnd = _bug.rnd;
+            approachDist = 10;
 
         }
 
         public override void Update()
         {
-
             if (_bug.speed <= 30.0f)
             {
                 Enter();
             }
-
-            
-
         }
     }
 }

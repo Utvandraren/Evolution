@@ -16,6 +16,8 @@ namespace Evolution
 
         public TinyBug(Rectangle drawRect,Texture2D texture, Vector2 pos,Random rnd) : base(drawRect, texture, pos, rnd)
         {
+            collRect = new Rectangle((int)pos.X, (int)pos.Y , drawRect.Width, drawRect.Height );
+
             context = new FuzzyContext(this);
             context.AddState(new TinyBugAI.IdleState(this));
             context.AddState(new Moving(this));
@@ -29,6 +31,13 @@ namespace Evolution
             {
                 speed -= 0.8f;
             }
+
+            if (pos.X < -20) //Debug
+            {
+                System.Diagnostics.Debug.WriteLine(Direction);
+
+            }
+
             base.Update(gameTime);
             context.Update();
 
@@ -57,5 +66,7 @@ namespace Evolution
         {
             context.nearestObjPos = new Vector2(2000, 1000);
         }
+
+       
     }
 }

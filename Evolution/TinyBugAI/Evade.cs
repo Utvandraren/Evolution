@@ -14,7 +14,7 @@ namespace Evolution.TinyBugAI
     {
         Random rnd;
         Vector2 target;
-        float approachDist;
+        float evadeDist;
 
         public Evade(Bug bug) : base()
         {
@@ -27,7 +27,8 @@ namespace Evolution.TinyBugAI
 
         public override float CalculateActivation()
         {
-            activationLevel = approachDist / Vector2.Distance(context.nearestEnemy, _bug.pos);
+            activationLevel = evadeDist / Vector2.Distance(context.nearestEnemy, _bug.pos);
+            CheckBounds();
             return activationLevel;
         }
 
@@ -43,8 +44,8 @@ namespace Evolution.TinyBugAI
                 target = context.nearestObjPos;
             }
 
-            _bug.speed = rnd.Next(120, 140);
-            _bug.direction = -Vector2.Normalize(target - _bug.pos);
+            _bug.speed = rnd.Next(120, 140) * activationLevel;
+            _bug.Direction += -Vector2.Normalize(target - _bug.pos) * activationLevel;
         }
 
         public override void Exit()
@@ -53,7 +54,7 @@ namespace Evolution.TinyBugAI
 
         public override void Init()
         {
-
+            evadeDist = 1000;
         }
 
         public override void Update()
@@ -65,10 +66,7 @@ namespace Evolution.TinyBugAI
                 Enter();
             }
 
-            if (Vector2.Distance(context.nearestEnemy, _bug.pos) > 300)
-            {
-                Exit();
-            }
+            
         }
     }
 }

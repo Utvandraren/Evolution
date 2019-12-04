@@ -14,6 +14,7 @@ namespace Evolution.TinyBugAI
         //Bug _bug;
         Random rnd;
         Vector2 target;
+        float activationTreshold;
 
         public IdleState(Bug bug)
         {
@@ -25,7 +26,10 @@ namespace Evolution.TinyBugAI
 
         public override float CalculateActivation()
         {
-            activationLevel = Vector2.Distance(context.nearestEnemy, _bug.pos) / 400;
+            //activationLevel = 0;
+            activationLevel = (Vector2.Distance(context.nearestEnemy, _bug.pos) + Vector2.Distance(context.nearestObjPos, _bug.pos)) / activationTreshold;
+            CheckBounds();
+            //Console.WriteLine(activationLevel.ToString());
             return activationLevel;
         }
 
@@ -35,9 +39,11 @@ namespace Evolution.TinyBugAI
 
         public override void Enter()
         {
-            _bug.speed = rnd.Next(30, 60);
-            _bug.direction.X = rnd.Next(-1, 1);
-            _bug.direction.Y = rnd.Next(-1, 1);
+            _bug.speed = rnd.Next(30, 60) * activationLevel;
+            _bug.direction.X += rnd.Next(-1, 1) * activationLevel;
+            _bug.direction.Y += rnd.Next(-1, 1) * activationLevel;
+            _bug.Direction += new Vector2(rnd.Next(-1, 1), rnd.Next(-1, 1));
+
         }
 
         public override void Exit()
@@ -47,6 +53,7 @@ namespace Evolution.TinyBugAI
         public override void Init()
         {
             target = new Vector2(rnd.Next(0, 1200), rnd.Next(0, 1000));
+            activationTreshold = 3000;
         }
 
         public override void Update()
