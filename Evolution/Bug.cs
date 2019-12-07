@@ -74,6 +74,8 @@ namespace Evolution
 
             set
             {
+                direction = value;
+
                 if (direction.X > 1)
                 {
                     direction.X = 1;
@@ -90,9 +92,12 @@ namespace Evolution
                 {
                     direction.Y = 0;
                 }
-
-                direction = value;
             }
         }
+
+        public virtual void resetTarget()
+        {
+        }
+
     }
 }

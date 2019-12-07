@@ -26,42 +26,37 @@ namespace Evolution.TinyBugAI
 
         public override float CalculateActivation()
         {
-            //activationLevel = 0;
-            activationLevel = (Vector2.Distance(context.nearestEnemy, _bug.pos) + Vector2.Distance(context.nearestObjPos, _bug.pos)) / activationTreshold;
+            activationLevel =  (Vector2.Distance(context.nearestEnemy, _bug.pos) / activationTreshold) + (Vector2.Distance(context.nearestObjPos, _bug.pos) / activationTreshold);
             CheckBounds();
-            //Console.WriteLine(activationLevel.ToString());
             return activationLevel;
-        }
-
-        public override void CheckTransitions(int i)
-        {
         }
 
         public override void Enter()
         {
-            _bug.speed = rnd.Next(30, 60) * activationLevel;
-            _bug.direction.X += rnd.Next(-1, 1) * activationLevel;
-            _bug.direction.Y += rnd.Next(-1, 1) * activationLevel;
-            _bug.Direction += new Vector2(rnd.Next(-1, 1), rnd.Next(-1, 1));
-
         }
 
         public override void Exit()
         {
+
         }
 
         public override void Init()
         {
-            target = new Vector2(rnd.Next(0, 1200), rnd.Next(0, 1000));
-            activationTreshold = 3000;
+            NewTarget();
+            activationTreshold = 10000;
         }
 
         public override void Update()
         {
-            if (_bug.speed < 10.0f)
-            {
-                Enter();
-            }           
+            NewTarget();
+            //_bug.Direction += new Vector2(rnd.Next(-1, 1), rnd.Next(-1, 1)) * activationLevel;
+            _bug.Direction += Vector2.Normalize(target - _bug.pos) * activationLevel;
+
+        }
+
+        public void NewTarget()
+        {
+            target = new Vector2(rnd.Next(0, 1200), rnd.Next(0, 800));
         }
     }
 }

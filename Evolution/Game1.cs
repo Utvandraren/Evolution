@@ -48,8 +48,8 @@ namespace Evolution
         protected override void LoadContent()
         {
             nmbrBugs = 1;
-            nmbrBadBugs = 1;
-            nmbrTinyBugs = 1;
+            nmbrBadBugs = 3;
+            nmbrTinyBugs = 30;
             nmbrFoods = 100;
 
             // Create a new SpriteBatch, which can be used to draw textures.
@@ -126,7 +126,7 @@ namespace Evolution
             foreach (BadBug badBug in badBugList)
             {
                 badBug.Update(gameTime);
-                badBug.UpdatePerceptionData(bugList);
+                badBug.UpdatePerceptionData(bugList,tinyBugList);
             }
 
             foreach (TinyBug tiny in tinyBugList)
@@ -142,6 +142,16 @@ namespace Evolution
                     if (badBug.IsColliding(bug))
                     {
                         bugList.Remove(bug);
+                        badBug.resetTarget();
+                        break;
+                    }
+                }
+
+                foreach (TinyBug tiny in tinyBugList)
+                {
+                    if (badBug.IsColliding(tiny))
+                    {
+                        tinyBugList.Remove(tiny);
                         badBug.resetTarget();
                         break;
                     }

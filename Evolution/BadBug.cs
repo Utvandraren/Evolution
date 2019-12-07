@@ -42,7 +42,7 @@ namespace Evolution
             base.Draw(spriteBatch);
         }
 
-        public void UpdatePerceptionData(List<GameObject> objList)
+        public void UpdatePerceptionData(List<GameObject> objList, List<GameObject> tinyBugList)
         {
             foreach (GameObject bug in objList)
             {
@@ -51,9 +51,17 @@ namespace Evolution
                     nearestGoodBug = bug.pos;
                 }
             }
+
+            foreach (GameObject tinyBug in tinyBugList)
+            {
+                if (Vector2.Distance(tinyBug.pos, pos) < Vector2.Distance(nearestGoodBug, pos))
+                {
+                    nearestGoodBug = tinyBug.pos;
+                }
+            }
         }
 
-        public void resetTarget()
+        public override void resetTarget()
         {
             nearestGoodBug = new Vector2(2000, 2000);
         }

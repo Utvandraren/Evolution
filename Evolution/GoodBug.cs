@@ -55,7 +55,7 @@ namespace Evolution
             }
         }
 
-        public void resetTarget()
+        public override void resetTarget()
         {
             context.nearestObjPos = new Vector2(2000, 1000);
         }
