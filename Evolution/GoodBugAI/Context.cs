@@ -31,8 +31,6 @@ namespace Evolution
         public void Update()
         {
             _state.Update();           
-        }
-
-        
+        }   
     }
 }

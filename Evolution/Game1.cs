@@ -47,7 +47,7 @@ namespace Evolution
         /// </summary>
         protected override void LoadContent()
         {
-            nmbrBugs = 1;
+            nmbrBugs = 10;
             nmbrBadBugs = 3;
             nmbrTinyBugs = 30;
             nmbrFoods = 100;
