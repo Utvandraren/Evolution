@@ -12,9 +12,11 @@ namespace Evolution
     class GameObject
     {
         protected Rectangle drawRect;
+        protected Rectangle collRect;
         protected Texture2D texture;
         public Vector2 pos;
-        protected Rectangle collRect;
+        public Vector2 m_velocity;
+        public int m_Size;
 
 
         public GameObject(Rectangle drawRect,Texture2D texture,Vector2 pos)

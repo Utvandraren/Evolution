@@ -45,6 +45,15 @@
     <Compile Include="BadBugAI\AttackNode.cs" />
     <Compile Include="BadBugAI\IdleNode.cs" />
     <Compile Include="BadBugAI\Node.cs" />
+    <Compile Include="BoidBug\Boig.cs" />
+    <Compile Include="BoidBug\SteerApproach.cs" />
+    <Compile Include="BoidBug\SteerArrive.cs" />
+    <Compile Include="BoidBug\SteerEvade.cs" />
+    <Compile Include="BoidBug\SteeringBehavior.cs" />
+    <Compile Include="BoidBug\SteeringBehaviorManager.cs" />
+    <Compile Include="BoidBug\SteeringControl.cs" />
+    <Compile Include="BoidBug\SteerPursuit.cs" />
+    <Compile Include="BoidBug\SteerWander.cs" />
     <Compile Include="Bug.cs" />
     <Compile Include="GoodBugAI\Context.cs" />
     <Compile Include="Food.cs" />

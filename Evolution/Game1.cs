@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Evolution.BoidBug;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -18,9 +19,12 @@ namespace Evolution
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Texture2D bugText,foodText,badBugText,TinyBugText;
-        List<GameObject> bugList,badBugList,staticObjList,tinyBugList;
-        int nmbrBugs,nmbrBadBugs,nmbrFoods,nmbrTinyBugs;
+        List<GameObject> bugList, badBugList, staticObjList, tinyBugList;
+        List<Boig> boigList;
+        int nmbrBugs,nmbrBadBugs,nmbrFoods,nmbrTinyBugs,nmbrBoigs;
         Random rnd;
+        List<SteeringControl> strCtrlrs;
+
 
         public Game1()
         {
@@ -47,10 +51,11 @@ namespace Evolution
         /// </summary>
         protected override void LoadContent()
         {
-            nmbrBugs = 10;
-            nmbrBadBugs = 3;
-            nmbrTinyBugs = 30;
-            nmbrFoods = 100;
+            nmbrBugs = 0;
+            nmbrBadBugs = 0;
+            nmbrTinyBugs = 0;
+            nmbrFoods = 0;
+            nmbrBoigs = 120;
 
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -63,6 +68,16 @@ namespace Evolution
             badBugList = new List<GameObject>();
             staticObjList = new List<GameObject>();
             tinyBugList = new List<GameObject>();
+            boigList = new List<Boig>();
+            strCtrlrs = new List<SteeringControl>();
+
+            for (int i = 0; i < nmbrBoigs; i++)
+            {
+                int X = rnd.Next(1100);
+                int Y = rnd.Next(700);
+                boigList.Add(new Boig(new Rectangle(0, 0, 20, 19), foodText, new Vector2(X, Y), rnd,boigList));
+                //strCtrlrs.Add(new SteeringControl(boigList[i]));
+            }
 
             for (int i = 0; i < nmbrFoods; i++)
             {
@@ -92,7 +107,6 @@ namespace Evolution
                 tinyBugList.Add(new TinyBug(new Rectangle(0, 0, TinyBugText.Width, TinyBugText.Height), TinyBugText, new Vector2(X, Y), rnd));
             }
 
-
             graphics.PreferredBackBufferHeight = 800;
             graphics.PreferredBackBufferWidth = 1200;
             graphics.ApplyChanges();
@@ -116,6 +130,17 @@ namespace Evolution
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
+            //foreach (SteeringControl ctrls in strCtrlrs)
+            //{
+            //    ctrls.Update(gameTime.ElapsedGameTime.Seconds);
+            //}
+
+            foreach (Boig boig in boigList)
+            {
+                boig.Update(gameTime);
+            }
+
 
             foreach (GoodBug bug in bugList) 
             {
@@ -200,6 +225,11 @@ namespace Evolution
         {
             GraphicsDevice.Clear(Color.WhiteSmoke);
             spriteBatch.Begin();
+
+            foreach (Boig boig in boigList)
+            {
+                boig.Draw(spriteBatch);
+            }
 
             foreach (GameObject obj in bugList)  
             {
